@@ -1,24 +1,26 @@
 {
-    "mappings": {
-        "properties": {
-            "count": {
-                "type": "integer"
-            },
-            "make": {
-                "type": "keyword"
-            },
-            "model": {
-                "type": "keyword"
-            },
-            "timestamp": {
-                "type": "date"
-            }
-        }
-    },
     "settings": {
         "index": {
-            "number_of_replicas": "{{number_of_replicas | default(1)}}",
-            "number_of_shards": "{{number_of_shards | default(1)}}"
+            "number_of_replicas": 0,
+            "number_of_shards": 1
+        }
+    },
+    "mappings": {
+        "_doc": {
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "make": {
+                    "type": "keyword"
+                },
+                "model": {
+                    "type": "keyword"
+                },
+                "timestamp": {
+                    "type": "date"
+                }
+            }
         }
     }
 }

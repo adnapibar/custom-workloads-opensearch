@@ -1,4 +1,5 @@
-{% import "benchmark.helpers" as benchmark with context %}
+{% import "benchmark.helpers" as benchmark with context %
+}
 {
   "version": 2,
   "description": "Tracker-generated workload for vehicles",
@@ -29,7 +30,10 @@
     {
       "operation": {
         "operation-type": "create-index",
-        "settings": {{index_settings | default({}) | tojson}}
+        "settings": {
+          {index_settings | default({}) | tojson
+          }
+        }
       }
     },
     {
@@ -46,81 +50,90 @@
     {
       "operation": {
         "operation-type": "bulk",
-        "bulk-size": {{bulk_size | default(5000)}},
-        "ingest-percentage": {{ingest_percentage | default(100)}}
+        "bulk-size": {
+          {bulk_size | default(5000)
+          }
+        },
+        "ingest-percentage": {
+          {ingest_percentage | default(100)
+          }
+        }
       },
-      "clients": {{bulk_indexing_clients | default(8)}}
+      "clients": {
+        {bulk_indexing_clients | default(8)
+        }
+      }
     },
     {
-    "name": "date_histogram_agg",
-    "operation": {
+      "name": "date_histogram_agg",
+      "operation": {
         "operation-type": "search",
         "body": {
-            "size": 0,
-            "query": {
-                "range": {
-                    "timestamp": {
-                        "gte": "01/11/2022",
-                        "lte": "21/11/2022",
-                        "format": "dd/MM/yyyy"
-                    }
-                }
-            },
-            "aggs": {
-                "sales_over_time": {
-                    "date_histogram": {
-                        "field": "timestamp",
-                        "calendar_interval": "day"
-                    }
-                }
+          "size": 0,
+          "query": {
+            "range": {
+              "timestamp": {
+                "gte": "01/11/2022",
+                "lte": "30/11/2022",
+                "format": "dd/MM/yyyy"
+              }
             }
+          },
+          "aggs": {
+            "sales_over_time": {
+              "date_histogram": {
+                "field": "timestamp",
+                "calendar_interval": "day"
+              }
+            }
+          }
         },
         "warmup-iterations": 50,
         "iterations": 100,
         "target-throughput": 1.5
-    }
-   },
-   {
-    "name": "date_histogram_subaggs",
-    "operation": {
+      }
+    },
+    {
+      "name": "date_histogram_subaggs",
+      "operation": {
         "operation-type": "search",
         "body": {
-            "size": 0,
-            "query": {
-                "range": {
-                    "timestamp": {
-                        "gte": "2022-11-01 00:00:00",
-                        "lte": "2022-11-10 23:59:59"
-                    }
-                }
-            },
-            "aggs": {
-                "sales_over_time": {
-                    "date_histogram": {
-                        "field": "timestamp",
-                        "fixed_interval": "60s"
-                    },
-                    "aggs": {
-                        "make_type": {
-                            "terms": {
-                                "field": "make"
-                            },
-                            "aggs": {
-                                "total_sale": {
-                                    "sum": {
-                                        "field": "count"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+          "size": 0,
+          "query": {
+            "range": {
+              "timestamp": {
+                "gte": "2022-11-03T00:00:00",
+                "lte": "2022-11-03T23:59:00"
+              }
             }
+          },
+          "aggs": {
+            "sales_over_time": {
+              "date_histogram": {
+                "field": "timestamp",
+                "fixed_interval": "60s"
+              },
+              "aggs": {
+                "make_type": {
+                  "terms": {
+                    "field": "make"
+                  },
+                  "aggs": {
+                    "total_sale": {
+                      "sum": {
+                        "field": "count"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
         "warmup-iterations": 50,
         "iterations": 100,
         "target-throughput": 1.5
+      }
     }
-   }
   ]
 }
