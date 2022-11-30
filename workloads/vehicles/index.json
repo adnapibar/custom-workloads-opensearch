@@ -1,22 +1,24 @@
 {
-    "settings": {
-        "index.number_of_replicas": 0
-    },
     "mappings": {
-        "dynamic": "strict",
         "properties": {
+            "count": {
+                "type": "integer"
+            },
             "make": {
                 "type": "keyword"
             },
             "model": {
                 "type": "keyword"
             },
-            "count": {
-                "type": "integer"
-            },
             "timestamp": {
                 "type": "date"
             }
+        }
+    },
+    "settings": {
+        "index": {
+            "number_of_replicas": "{{number_of_replicas | default(1)}}",
+            "number_of_shards": "{{number_of_shards | default(1)}}"
         }
     }
 }

@@ -80,9 +80,15 @@ The `bulk_ingest.py` script generates 10,000,000 documents of fake vehicle sales
 
 Install `Faker` and `opensearchpy` for this.
 
+To create a new workload which can be reused against other versions for comparison
+
+```
+opensearch-benchmark create-workload --workload=vehicles --target-hosts=127.0.0.1:9200 --indices="vehicles" --output-path=~/workloads
+```
+
 The workloads directory contains a workload for vehicles data, run the workload by running
 
 ```
-opensearch-benchmark execute_test --pipeline=benchmark-only --target-hosts=127.0.0.1:9200 --distribution-version=2.4.0 --workload-path=/home/ubuntu/workloads/vehicles
+opensearch-benchmark execute_test --pipeline=benchmark-only --target-hosts=127.0.0.1:9200 --distribution-version=1.0.0 --workload-path=~/workloads/vehicles --workload-params='number_of_replicas:0
 ```
 
