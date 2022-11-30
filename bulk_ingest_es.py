@@ -1,6 +1,6 @@
 import tqdm
-from opensearchpy import OpenSearch
-from opensearchpy.helpers import streaming_bulk
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import streaming_bulk
 
 
 def create_index(client):
@@ -21,6 +21,7 @@ def create_index(client):
         ignore=400,
     )
 
+
 def generate_data():
     with open('vehicles.json', 'r') as file:
         for doc in file:
@@ -29,7 +30,7 @@ def generate_data():
 
 if __name__ == '__main__':
     number_of_docs = 10000000
-    client = OpenSearch()
+    client = Elasticsearch()
     print("Creating an index...")
     create_index(client)
 

@@ -6,20 +6,18 @@
         }
     },
     "mappings": {
-        "_doc": {
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "make": {
-                    "type": "keyword"
-                },
-                "model": {
-                    "type": "keyword"
-                },
-                "timestamp": {
-                    "type": "date"
-                }
+        "properties": {
+            "count": {
+                "type": "integer"
+            },
+            "make": {
+                "type": "keyword"
+            },
+            "model": {
+                "type": "keyword"
+            },
+            "timestamp": {
+                "type": "date"
             }
         }
     }
